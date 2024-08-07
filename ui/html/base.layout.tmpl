@@ -1,0 +1,25 @@
+{{define "base"}}
+<!doctype html>
+<html lang='en'>
+    <head>
+        <meta charset='utf-8'>
+        <title>Scrabble Solved</title>
+        <link rel='stylesheet' href='/static/css/main.css'>
+        <link rel='shortcut icon' href='/static/img/favicon.ico' type='image/x-icon'>
+        <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Ubuntu'>
+    </head>
+    <body>
+        <header>
+            <h1>Scrabble Solved</h1>
+        </header>
+        <section>
+            {{with .Flash}}
+            <div class='flash'>{{.}}</div>
+            {{end}}
+            {{template "body" .}}
+        </section>
+        {{template "footer" .}}
+        <script src="/static/js/main.js" type="text/javascript"></script>
+    </body>
+</html>
+{{end}}
