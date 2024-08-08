@@ -57,7 +57,7 @@ func createLetterDic(filePath string) map[string]scrabbleLetter {
 	return wordMap
 }
 
-func createWordsDic(filePath string) map[string][]scrabbleWords {
+func createWordsDic(filePath string, scrabbleLetters map[string]scrabbleLetter) map[string][]scrabbleWords {
 
 	wordMap := make(map[string][]scrabbleWords)
 
@@ -74,9 +74,14 @@ func createWordsDic(filePath string) map[string][]scrabbleWords {
 		sort.Strings(splitWord)
 		sortedWord := strings.Join(splitWord, "")
 
+		calcScore := 0
+		for _, char := range sortedWord {
+			calcScore += scrabbleLetters[string(char)].value
+		}
+
 		data := scrabbleWords{
 			word:  word,
-			score: 1,
+			score: calcScore,
 		}
 
 		wordMap[sortedWord] = append(wordMap[sortedWord], data)

@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"sort"
 	"strings"
 
 	"github.com/julienschmidt/httprouter"
@@ -24,9 +25,17 @@ func (app *application) solve(w http.ResponseWriter, r *http.Request) {
 	//logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
 	params := httprouter.ParamsFromContext(r.Context())
 	letters := params.ByName("letters")
-	lettersToLower := strings.ToLower(letters)
+	if len(letters) > 7 || len(letters) < 1 {
+		fmt.Fprintf(w, "Length must be between 1 and 7.")
+		return
+	}
 
-	// Validate the letters parameter
+	lettersLower := strings.ToLower(letters)
+
+	splitWord := strings.Split(lettersLower, "")
+	sort.Strings(splitWord)
+	sortedWord := strings.Join(splitWord, "")
+
 	if letters == "" {
 		app.notFound(w)
 		return
@@ -36,6 +45,7 @@ func (app *application) solve(w http.ResponseWriter, r *http.Request) {
 	// 	app.notFound(w)
 	// 	return
 	// }
-	fmt.Fprintf(w, "Search with letters: %s \n", lettersToLower)
+
+	fmt.Fprintf(w, "Search with letters: %s \n", sortedWord)
 
 }

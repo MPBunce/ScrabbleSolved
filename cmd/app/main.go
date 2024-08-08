@@ -58,20 +58,20 @@ func main() {
 	letterA := scrabbleLetters["a"]
 	logger.Printf("Letter: %s, Value: %d, Count: %d\n", "a", letterA.value, letterA.count)
 
-	scrabbleWords := createWordsDic("./ui/static/wordData.txt")
+	scrabbleWords := createWordsDic("./ui/static/wordData.txt", scrabbleLetters)
 	if err != nil {
 		logger.Fatal(err)
 	}
-
+	logger.Println(scrabbleWords["fmor"])
 	//Count to confirm
-	count := 0
-	for letter, words := range scrabbleWords {
-		fmt.Println("Letter:", letter)
-		for range words {
-			count += 1
-		}
-	}
-	logger.Printf("count: %d\n", count)
+	// count := 0
+	// for letter, words := range scrabbleWords {
+	// 	fmt.Println("Letter:", letter)
+	// 	for range words {
+	// 		count += 1
+	// 	}
+	// }
+	// logger.Printf("count: %d\n", count)
 
 	app := &application{
 		config:         cfg,
