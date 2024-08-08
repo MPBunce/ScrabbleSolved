@@ -3,6 +3,9 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"strings"
+
+	"github.com/julienschmidt/httprouter"
 )
 
 func (app *application) healthcheckHandler(w http.ResponseWriter, r *http.Request) {
@@ -17,8 +20,22 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func (app *application) search(w http.ResponseWriter, r *http.Request) {
+func (app *application) solve(w http.ResponseWriter, r *http.Request) {
+	//logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
+	params := httprouter.ParamsFromContext(r.Context())
+	letters := params.ByName("letters")
+	lettersToLower := strings.ToLower(letters)
 
-	app.render(w, r, "home.page.tmpl")
+	// Validate the letters parameter
+	if letters == "" {
+		app.notFound(w)
+		return
+	}
+	// logger.Printf("logging")
+	// if letters == "" {
+	// 	app.notFound(w)
+	// 	return
+	// }
+	fmt.Fprintf(w, "Search with letters: %s \n", lettersToLower)
 
 }

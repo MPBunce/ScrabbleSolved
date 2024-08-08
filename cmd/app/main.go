@@ -17,10 +17,22 @@ type config struct {
 	env  string
 }
 
+type scrabbleWords struct {
+	word  string
+	score int
+}
+
+type scrabbleLetter struct {
+	value int
+	count int
+}
+
 type application struct {
-	config        config
-	logger        *log.Logger
-	templateCache map[string]*template.Template
+	config         config
+	logger         *log.Logger
+	scrabbleWords  map[string][]scrabbleWords
+	scrabbleLetter map[string]scrabbleLetter
+	templateCache  map[string]*template.Template
 }
 
 func main() {
@@ -38,10 +50,35 @@ func main() {
 		logger.Fatal(err)
 	}
 
+	scrabbleLetters := createLetterDic("./ui/static/letterData.txt")
+	if err != nil {
+		logger.Fatal(err)
+	}
+
+	letterA := scrabbleLetters["a"]
+	logger.Printf("Letter: %s, Value: %d, Count: %d\n", "a", letterA.value, letterA.count)
+
+	scrabbleWords := createWordsDic("./ui/static/wordData.txt")
+	if err != nil {
+		logger.Fatal(err)
+	}
+
+	//Count to confirm
+	count := 0
+	for letter, words := range scrabbleWords {
+		fmt.Println("Letter:", letter)
+		for range words {
+			count += 1
+		}
+	}
+	logger.Printf("count: %d\n", count)
+
 	app := &application{
-		config:        cfg,
-		logger:        logger,
-		templateCache: templateCache,
+		config:         cfg,
+		logger:         logger,
+		scrabbleLetter: scrabbleLetters,
+		scrabbleWords:  scrabbleWords,
+		templateCache:  templateCache,
 	}
 
 	srv := &http.Server{

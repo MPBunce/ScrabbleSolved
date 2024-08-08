@@ -9,13 +9,59 @@ import (
 	"os"
 	"runtime/debug"
 	"sort"
+	"strconv"
 	"strings"
 )
 
-func createDic() {
-	wordMap := make(map[string][]string)
+func createLetterDic(filePath string) map[string]scrabbleLetter {
 
-	file, err := os.Open("sw.txt")
+	file, err := os.Open(filePath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	wordMap := make(map[string]scrabbleLetter)
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+
+		line := scanner.Text()
+		splitWord := strings.Split(line, "-")
+		if len(splitWord) != 3 {
+			log.Fatal("Invalid line format")
+		}
+
+		value, err := strconv.Atoi(splitWord[1])
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		count, err := strconv.Atoi(splitWord[2])
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		letter := scrabbleLetter{
+			value: value,
+			count: count,
+		}
+
+		wordMap[splitWord[0]] = letter
+
+	}
+
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return wordMap
+}
+
+func createWordsDic(filePath string) map[string][]scrabbleWords {
+
+	wordMap := make(map[string][]scrabbleWords)
+
+	file, err := os.Open(filePath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -26,14 +72,21 @@ func createDic() {
 		word := scanner.Text()
 		splitWord := strings.Split(word, "")
 		sort.Strings(splitWord)
-		wordMap[word] = splitWord
+		sortedWord := strings.Join(splitWord, "")
+
+		data := scrabbleWords{
+			word:  word,
+			score: 1,
+		}
+
+		wordMap[sortedWord] = append(wordMap[sortedWord], data)
 	}
 
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println(wordMap["apple"])
+	return wordMap
 }
 
 func (app *application) render(w http.ResponseWriter, r *http.Request, name string) {
