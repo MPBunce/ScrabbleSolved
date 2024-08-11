@@ -30,7 +30,7 @@ func (app *application) solve(w http.ResponseWriter, r *http.Request) {
 
 	params := httprouter.ParamsFromContext(r.Context())
 	letters := params.ByName("searchWord")
-	fmt.Println(letters)
+
 	if len(letters) > 7 || len(letters) < 1 {
 		fmt.Fprintf(w, "Length must be between 1 and 7.")
 		return
@@ -47,9 +47,6 @@ func (app *application) solve(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//fmt.Fprintf(w, "Search with letters: %s \n", sortedWord)
-
-	//Can Make
 	var canMakeArray = []scrabbleWords{}
 	res := getCurrent(sortedWord)
 	for _, v := range res {
@@ -62,13 +59,6 @@ func (app *application) solve(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	//print to screen
-	// for _, v := range canMakeArray {
-	// 	fmt.Fprintf(w, "%s %d\n", v.Word, v.Score)
-	// }
-
-	//One Away
-	//fmt.Fprintf(w, "OneAway\n\n ")
 	var oneAwayArray = []scrabbleWords{}
 	resOneAway := getOneAway(sortedWord)
 	for _, v := range resOneAway {
@@ -82,14 +72,7 @@ func (app *application) solve(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
-	//print to screen
-	// for _, v := range oneAwayArray {
-	// 	fmt.Fprintf(w, "%s %d\n", v.Word, v.Score)
-	// }
 
-	//Two Away
-
-	//fmt.Fprintf(w, "TwoAway\n\n ")
 	var twoAwayArray = []scrabbleWords{}
 	resTwoAway := getTwoAway(sortedWord)
 	for _, v := range resTwoAway {
@@ -106,11 +89,6 @@ func (app *application) solve(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	//print to screen
-	// for _, v := range twoAwayArray {
-	// 	fmt.Fprintf(w, "%s %d\n", v.Word, v.Score)
-	// }
-
 	app.render(w, r, "show.page.tmpl", &templateData{
 		SearchWord: letters,
 		Matches:    canMakeArray,
@@ -118,22 +96,4 @@ func (app *application) solve(w http.ResponseWriter, r *http.Request) {
 		TwoAway:    twoAwayArray,
 	})
 
-	// dummyData := &templateData{
-	// 	SearchWord: "abc",
-	// 	Matches: []scrabbleWords{
-	// 		{Word: "cab", Score: 8},
-	// 		{Word: "bac", Score: 8},
-	// 	},
-	// 	OneAway: []scrabbleWords{
-	// 		{Word: "ab", Score: 5},
-	// 		{Word: "bc", Score: 6},
-	// 	},
-	// 	TwoAway: []scrabbleWords{
-	// 		{Word: "a", Score: 1},
-	// 		{Word: "b", Score: 3},
-	// 		{Word: "c", Score: 3},
-	// 	},
-	// }
-
-	//app.render(w, r, "show.page.tmpl", dummyData)
 }
