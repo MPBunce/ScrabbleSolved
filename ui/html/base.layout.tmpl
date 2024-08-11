@@ -13,9 +13,6 @@
             <h1>Scrabble Solved</h1>
         </header>
         <section>
-            {{with .Flash}}
-            <div class='flash'>{{.}}</div>
-            {{end}}
             {{template "body" .}}
         </section>
         {{template "footer" .}}

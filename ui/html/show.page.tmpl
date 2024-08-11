@@ -1,0 +1,41 @@
+{{template "base" .}}
+
+{{define "title"}}Show Page{{end}}
+
+{{define "body"}}
+<h1>Results for "{{.SearchWord}}"</h1>
+
+{{if .Matches}}
+    <h2>Matches:</h2>
+    <ul>
+        {{range .Matches}}
+            <li>{{.Word}} - {{.Score}}</li>
+        {{end}}
+    </ul>
+{{else}}
+    <p>No matches found.</p>
+{{end}}
+
+{{if .OneAway}}
+    <h2>One Away:</h2>
+    <ul>
+        {{range .OneAway}}
+            <li>{{.Word}} - {{.Score}}</li>
+        {{end}}
+    </ul>
+{{else}}
+    <p>No Words one away.</p>
+{{end}}
+
+{{if .TwoAway}}
+    <h2>Two Away:</h2>
+    <ul>
+        {{range .TwoAway}}
+            <li>{{.Word}} - {{.Score}}</li>
+        {{end}}
+    </ul>
+{{else}}
+    <p>No Words two away.</p>
+{{end}}
+
+{{end}}

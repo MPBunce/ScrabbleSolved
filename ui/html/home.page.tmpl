@@ -3,6 +3,22 @@
 {{define "title"}}Home{{end}}
 
 {{define "body"}}
-    <input/> 
-    <button>Solve</button>
+<form id="searchForm" method="GET">
+    <input type="text" id="searchWord" name="searchWord" value='{{.SearchWord}}' placeholder="Enter word" />
+    <button type="submit">Solve</button>
+</form>
+
+<script>
+document.getElementById('searchForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    var searchWord = document.getElementById('searchWord').value;
+    var newUrl = '/solve/' + encodeURIComponent(searchWord); // Construct the new URL
+
+    window.history.pushState(null, '', newUrl); // Update the URL without reloading the page
+
+    // Submit the form manually to load the new page
+    window.location.href = newUrl;
+});
+</script>
 {{end}}

@@ -21,7 +21,7 @@ func createLetterDic(filePath string) map[string]scrabbleLetter {
 	}
 	defer file.Close()
 
-	wordMap := make(map[string]scrabbleLetter)
+	WordMap := make(map[string]scrabbleLetter)
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 
@@ -46,7 +46,7 @@ func createLetterDic(filePath string) map[string]scrabbleLetter {
 			count: count,
 		}
 
-		wordMap[splitWord[0]] = letter
+		WordMap[splitWord[0]] = letter
 
 	}
 
@@ -54,12 +54,12 @@ func createLetterDic(filePath string) map[string]scrabbleLetter {
 		log.Fatal(err)
 	}
 
-	return wordMap
+	return WordMap
 }
 
 func createWordsDic(filePath string, scrabbleLetters map[string]scrabbleLetter) map[string][]scrabbleWords {
 
-	wordMap := make(map[string][]scrabbleWords)
+	WordMap := make(map[string][]scrabbleWords)
 
 	file, err := os.Open(filePath)
 	if err != nil {
@@ -69,8 +69,8 @@ func createWordsDic(filePath string, scrabbleLetters map[string]scrabbleLetter) 
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		word := scanner.Text()
-		splitWord := strings.Split(word, "")
+		Word := scanner.Text()
+		splitWord := strings.Split(Word, "")
 		sort.Strings(splitWord)
 		sortedWord := strings.Join(splitWord, "")
 
@@ -80,21 +80,21 @@ func createWordsDic(filePath string, scrabbleLetters map[string]scrabbleLetter) 
 		}
 
 		data := scrabbleWords{
-			word:  word,
-			score: calcScore,
+			Word:  Word,
+			Score: calcScore,
 		}
 
-		wordMap[sortedWord] = append(wordMap[sortedWord], data)
+		WordMap[sortedWord] = append(WordMap[sortedWord], data)
 	}
 
 	if err := scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
 
-	return wordMap
+	return WordMap
 }
 
-func (app *application) render(w http.ResponseWriter, r *http.Request, name string) {
+func (app *application) render(w http.ResponseWriter, r *http.Request, name string, td *templateData) {
 
 	ts, ok := app.templateCache[name]
 	if !ok {
@@ -103,17 +103,137 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, name stri
 	}
 	buf := new(bytes.Buffer)
 
-	err := ts.Execute(buf, nil)
+	// Pass td (templateData) instead of nil
+	err := ts.Execute(buf, td)
 
 	if err != nil {
 		app.serverError(w, err)
 		return
 	}
 	buf.WriteTo(w)
-
 }
 
-func generateCombinations(input string) {
+func getOneAway(input string) (output []string) {
+	letters := []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
+
+	freq := countFrequencies(input)
+	results := []string{}
+
+	for _, v := range letters {
+		generateCombinations(input, v, freq, &results)
+	}
+
+	for _, value := range results {
+
+		splitWord := strings.Split(value, "")
+		sort.Strings(splitWord)
+		sortedWord := strings.Join(splitWord, "")
+
+		if !contains(output, sortedWord) {
+			output = append(output, sortedWord)
+		}
+
+	}
+
+	return
+}
+
+func getTwoAway(input string) (output []string) {
+	letters := []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
+
+	freq := countFrequencies(input)
+	results := []string{}
+
+	for _, v := range letters {
+		for _, val := range letters {
+			str := []string{v, val}
+			temp := strings.Join(str, "")
+			//fmt.Println(temp)
+			generateCombinations(input, temp, freq, &results)
+		}
+
+	}
+
+	for _, value := range results {
+
+		splitWord := strings.Split(value, "")
+		sort.Strings(splitWord)
+		sortedWord := strings.Join(splitWord, "")
+
+		if !contains(output, sortedWord) {
+			output = append(output, sortedWord)
+		}
+
+	}
+
+	return
+}
+
+func getCurrent(input string) (output []string) {
+
+	freq := countFrequencies(input)
+	results := []string{}
+	generateCombinations(input, "", freq, &results)
+
+	for _, value := range results {
+
+		splitWord := strings.Split(value, "")
+		sort.Strings(splitWord)
+		sortedWord := strings.Join(splitWord, "")
+
+		if !contains(output, sortedWord) {
+			output = append(output, sortedWord)
+		}
+
+	}
+
+	return
+}
+
+func contains(slice []string, value string) bool {
+	for _, v := range slice {
+		if v == value {
+			return true
+		}
+	}
+	return false
+}
+
+func containsScrabbleWord(slice []scrabbleWords, value string) bool {
+	for _, v := range slice {
+		//fmt.Printf("%s compare %s\n", v.Word, value)
+		if v.Word == value {
+			return true
+		}
+	}
+	return false
+}
+
+func countFrequencies(input string) map[rune]int {
+	freq := make(map[rune]int)
+	for _, char := range input {
+		freq[char]++
+	}
+	return freq
+}
+
+func generateCombinations(input string, prefix string, freq map[rune]int, results *[]string) {
+
+	if len(prefix) > 0 {
+		*results = append(*results, prefix)
+	}
+
+	for char, count := range freq {
+		if count > 0 {
+			newFreq := make(map[rune]int)
+			for k, v := range freq {
+				newFreq[k] = v
+			}
+			newFreq[char]--
+			newPrefix := prefix + string(char)
+			generateCombinations(input, newPrefix, newFreq, results)
+		}
+	}
 
 }
 

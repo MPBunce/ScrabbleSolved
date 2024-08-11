@@ -18,8 +18,8 @@ type config struct {
 }
 
 type scrabbleWords struct {
-	word  string
-	score int
+	Word  string
+	Score int
 }
 
 type scrabbleLetter struct {
