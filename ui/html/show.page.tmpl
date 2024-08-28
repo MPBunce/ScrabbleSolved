@@ -3,39 +3,93 @@
 {{define "title"}}Show Page{{end}}
 
 {{define "body"}}
-<h1>Results for "{{.SearchWord}}"</h1>
+<style>
+    h1 {
+    color: #333;
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+    }
 
-{{if .Matches}}
+    h2 {
+    color: #007bff;
+    font-size: 22px;
+    margin-top: 20px;
+    }
+
+    p {
+    font-size: 16px;
+    color: #666;
+    }
+
+    ul {
+    list-style-type: none;
+    padding: 0;
+    }
+
+    li {
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+
+    li span {
+    font-weight: bold;
+    color: #007bff;
+    }
+
+    p.empty {
+    color: #ff0000;
+    font-weight: bold;
+    text-align: center;
+    }
+</style>
+
+<section>
+  <h1>Results for "{{.SearchWord}}"</h1>
+
+  {{if .Matches}}
     <h2>Matches:</h2>
     <ul>
-        {{range .Matches}}
-            <li>{{.Word}} - {{.Score}}</li>
-        {{end}}
+      {{range .Matches}}
+        <li>
+          <span>{{.Word}}</span> Points: {{.Score}}
+        </li>
+      {{end}}
     </ul>
-{{else}}
-    <p>No matches found.</p>
-{{end}}
+  {{else}}
+    <p class="empty">No matches found.</p>
+  {{end}}
 
-{{if .OneAway}}
+  {{if .OneAway}}
     <h2>One Away:</h2>
     <ul>
-        {{range .OneAway}}
-            <li>{{.Word}} - {{.Score}}</li>
-        {{end}}
+      {{range .OneAway}}
+        <li>
+          <span>{{.Word}}</span> Points: {{.Score}}
+        </li>
+      {{end}}
     </ul>
-{{else}}
-    <p>No Words one away.</p>
-{{end}}
+  {{else}}
+    <p class="empty">No Words one away.</p>
+  {{end}}
 
-{{if .TwoAway}}
+  {{if .TwoAway}}
     <h2>Two Away:</h2>
     <ul>
-        {{range .TwoAway}}
-            <li>{{.Word}} - {{.Score}}</li>
-        {{end}}
+      {{range .TwoAway}}
+        <li>
+          <span>{{.Word}}</span> Points: {{.Score}}
+        </li>
+      {{end}}
     </ul>
-{{else}}
-    <p>No Words two away.</p>
-{{end}}
-
+  {{else}}
+    <p class="empty">No Words two away.</p>
+  {{end}}
+</section>
 {{end}}
