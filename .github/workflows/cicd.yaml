@@ -3,7 +3,7 @@ name: Deploy to Cloud Run
 env:
   SERVICE_NAME: ScrabbleSolver
   PROJECT_ID: scrabblesolver-437418 
-  DOCKER_IMAGE_URL: docker.io/local/scrabble:1.0
+  DOCKER_IMAGE_URL: docker.io/local/scrabble
 
 on:
   push:
