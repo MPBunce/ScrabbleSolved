@@ -55,14 +55,14 @@ func main() {
 		logger.Fatal(err)
 	}
 
-	letterA := scrabbleLetters["a"]
-	logger.Printf("Letter: %s, Value: %d, Count: %d\n", "a", letterA.value, letterA.count)
+	//letterA := scrabbleLetters["a"]
+	//logger.Printf("Letter: %s, Value: %d, Count: %d\n", "a", letterA.value, letterA.count)
 
 	scrabbleWords := createWordsDic("./ui/static/wordData.txt", scrabbleLetters)
 	if err != nil {
 		logger.Fatal(err)
 	}
-	logger.Println(scrabbleWords["fmor"])
+	//logger.Println(scrabbleWords["fmor"])
 	//Count to confirm
 	// count := 0
 	// for letter, words := range scrabbleWords {
