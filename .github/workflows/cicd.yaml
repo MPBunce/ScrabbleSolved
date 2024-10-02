@@ -1,9 +1,9 @@
 name: Deploy to Cloud Run
 
 env:
-  SERVICE_NAME: ScrabbleSolver
-  PROJECT_ID: scrabblesolver-437418 
-  DOCKER_IMAGE_URL: northamerica-northeast2-docker.pkg.dev/scrabblesolver-437418/scrabblesolver
+  SERVICE_NAME: scrabblesolver
+  PROJECT_ID: dockerimages-437420
+  DOCKER_IMAGE_URL: northamerica-northeast2-docker.pkg.dev/dockerimages-437420/scrabblesolver
 
 on:
   push:
