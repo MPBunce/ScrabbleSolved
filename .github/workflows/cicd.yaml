@@ -1,9 +1,9 @@
 name: Deploy to Cloud Run
 
 env:
-  SERVICE_NAME: scrabblesolver
+  SERVICE_NAME: ScrabbleSolver
   PROJECT_ID: dockerimages-437420
-  DOCKER_IMAGE_URL: northamerica-northeast2-docker.pkg.dev/dockerimages-437420/scrabblesolver
+  DOCKER_IMAGE_URL: us-east1-docker.pkg.dev/dockerimages-437420/scrabblesolver
 
 on:
   push:
@@ -32,7 +32,7 @@ jobs:
 
       - name: Configure Docker
         run: |
-          gcloud auth configure-docker northamerica-northeast2-docker.pkg.dev
+          gcloud auth configure-docker us-central1-docker.pkg.dev
 
       - name: Build and Push Docker Image
         run: |
@@ -45,5 +45,5 @@ jobs:
           gcloud run deploy $SERVICE_NAME \
             --image ${{ env.DOCKER_IMAGE_URL }}:latest \
             --platform managed \
-            --region northamerica-northeast2 \
+            --region us-east1 \
             --allow-unauthenticated

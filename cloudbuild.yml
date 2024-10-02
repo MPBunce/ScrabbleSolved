@@ -1,0 +1,5 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-f', 'Dockerfile', '-t', 'northamerica-northeast2-docker.pkg.dev/dockerimages-437420/scrabblesolver:latest', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'northamerica-northeast2-docker.pkg.dev/dockerimages-437420/scrabblesolver:latest']
