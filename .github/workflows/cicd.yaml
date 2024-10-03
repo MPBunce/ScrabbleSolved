@@ -42,13 +42,13 @@ jobs:
       - name: Deploy to Cloud Run
         run: |
           echo SERVICE_NAME $SERVICE_NAME
+
           gcloud run deploy $SERVICE_NAME \
             --image ${{ env.DOCKER_IMAGE_URL }}:latest \
             --platform managed \
             --region us-east1 \
             --allow-unauthenticated
 
-            - name: Deploy to Cloud Run
           gcloud beta run services add-iam-policy-binding "$SERVICE_NAME" \
             --region=us-east1 \
             --member=allUsers \
