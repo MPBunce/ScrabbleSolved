@@ -47,4 +47,5 @@ jobs:
             --image ${{ env.DOCKER_IMAGE_URL }}:latest \
             --platform managed \
             --region us-east1 \
-            --allow-unauthenticated
+            --member='allUsers' 
+            --role='roles/run.invoker'
