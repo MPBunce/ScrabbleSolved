@@ -56,4 +56,4 @@ jobs:
 
       - name: Update Permissions
         run:
-          gcloud beta run services add-iam-policy-binding --region=us-east1 --member=allUsers --role=roles/run.invoker scrabblesolved
+          gcloud beta run services add-iam-policy-binding --region=us-east1 --member=allUsers --role=roles/run.invoker $SERVICE_NAME
