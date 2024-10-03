@@ -49,4 +49,11 @@ jobs:
             --image ${{ env.DOCKER_IMAGE_URL }}:latest \
             --platform managed \
             --region us-east1 \
-            --allow-unauthenticated 
+
+      - name: Install Beta
+        run:
+          gcloud components install beta
+
+      - name: Update Permissions
+        run:
+          gcloud beta run services add-iam-policy-binding --region=us-east1 --member=allUsers --role=roles/run.invoker $SERVICE_NAME
