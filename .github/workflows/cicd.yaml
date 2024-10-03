@@ -47,5 +47,4 @@ jobs:
             --image ${{ env.DOCKER_IMAGE_URL }}:latest \
             --platform managed \
             --region us-east1 \
-            --member="allUsers" \
-            --role="roles/cloudfunctions.invoker"
+            --[no-]allow-unauthenticated
