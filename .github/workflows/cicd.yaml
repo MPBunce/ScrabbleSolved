@@ -49,7 +49,4 @@ jobs:
             --region us-east1 \
             --allow-unauthenticated
 
-          gcloud beta run services add-iam-policy-binding "$SERVICE_NAME" \
-            --region=us-east1 \
-            --member=allUsers \
-            --role=roles/run.invoker
+          gcloud run services set-iam-policy SERVICE policy.yaml
