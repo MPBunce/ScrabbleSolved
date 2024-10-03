@@ -43,9 +43,8 @@ jobs:
         run: |
           echo SERVICE_NAME $SERVICE_NAME
 
-          gcloud run deploy $SERVICE_NAME 
+          gcloud run deploy $SERVICE_NAME \
             --image ${{ env.DOCKER_IMAGE_URL }}:latest \
             --platform managed \
             --region us-east1 \
-            --member='allUsers' \
-            --role='roles/run.invoker' \
+            --allow-unauthenticated \
