@@ -43,10 +43,7 @@ jobs:
         run: |
           echo SERVICE_NAME $SERVICE_NAME
 
-          gcloud run deploy $SERVICE_NAME \
-            --image ${{ env.DOCKER_IMAGE_URL }}:latest \
-            --platform managed \
-            --region us-east1 \
+          gcloud run deploy $SERVICE_NAME 
+            --image ${{ env.DOCKER_IMAGE_URL }}:latest 
             --allow-unauthenticated
-
-          gcloud run services set-iam-policy SERVICE policy.yaml
+            --region us-east1 
