@@ -20,10 +20,10 @@ RUN go mod download
 # Copy the rest of the source code
 COPY . .
 
-ENV PORT=4000
+ENV PORT=8080
 
 # Expose the application port
-EXPOSE 4000
+EXPOSE 8080
 
 # Build the Go app before running it
 RUN go build -o main cmd/app/*
