@@ -47,3 +47,10 @@ jobs:
             --platform managed \
             --region us-east1 \
             --allow-unauthenticated
+
+            - name: Deploy to Cloud Run
+        run: |
+          gcloud beta run services add-iam-policy-binding "$SERVICE_NAME" \
+            --region=us-east1 \
+            --member=allUsers \
+            --role=roles/run.invoker
