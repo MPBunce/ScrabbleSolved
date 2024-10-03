@@ -29,7 +29,9 @@ jobs:
 
       - name: Set up Cloud SDK
         uses: 'google-github-actions/setup-gcloud@v2'
-
+        with:
+          version: '>= 416.0.0'
+          
       - name: Configure Docker
         run: |
           gcloud auth configure-docker us-east1-docker.pkg.dev
