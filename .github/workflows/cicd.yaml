@@ -43,7 +43,14 @@ jobs:
         run: |
           echo SERVICE_NAME $SERVICE_NAME
 
-          gcloud run deploy $SERVICE_NAME 
-            --image ${{ env.DOCKER_IMAGE_URL }}:latest 
+          gcloud run deploy $SERVICE_NAME \
+            --image ${{ env.DOCKER_IMAGE_URL }}:latest \
+            --platform managed \
+            --region us-east1 \
             --allow-unauthenticated
-            --region us-east1 
+
+      - name: Update Policy
+        run: |
+          gcloud run services add-iam-policy-binding [SERVICE_NAME] \
+          --member="allUsers" \
+          --role="roles/cloudfunctions.invoker"
