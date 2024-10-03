@@ -47,10 +47,5 @@ jobs:
             --image ${{ env.DOCKER_IMAGE_URL }}:latest \
             --platform managed \
             --region us-east1 \
-            --allow-unauthenticated
-
-      - name: Update Policy
-        run: |
-          gcloud run services add-iam-policy-binding [SERVICE_NAME] \
-          --member="allUsers" \
-          --role="roles/cloudfunctions.invoker"
+            --member="allUsers" \
+            --role="roles/cloudfunctions.invoker"
