@@ -9,7 +9,7 @@ type templateData struct {
 	SearchWord string
 	Matches    []scrabbleWords
 	OneAway    []scrabbleWords
-	TwoAway    []scrabbleWords
+	// TwoAway    []scrabbleWords
 }
 
 func newTemplateCache(dir string) (map[string]*template.Template, error) {

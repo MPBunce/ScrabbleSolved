@@ -79,17 +79,5 @@
     <p class="empty">No Words one away.</p>
   {{end}}
 
-  {{if .TwoAway}}
-    <h2>Two Away:</h2>
-    <ul>
-      {{range .TwoAway}}
-        <li>
-          <span>{{.Word}}</span> Points: {{.Score}}
-        </li>
-      {{end}}
-    </ul>
-  {{else}}
-    <p class="empty">No Words two away.</p>
-  {{end}}
 </section>
 {{end}}

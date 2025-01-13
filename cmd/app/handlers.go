@@ -20,7 +20,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		SearchWord: "", // Initialize with an empty string
 		Matches:    nil,
 		OneAway:    nil,
-		TwoAway:    nil,
+		// TwoAway:    nil,
 	}
 	app.render(w, r, "home.page.tmpl", &data)
 
@@ -73,27 +73,27 @@ func (app *application) solve(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	var twoAwayArray = []scrabbleWords{}
-	resTwoAway := getTwoAway(sortedWord)
-	for _, v := range resTwoAway {
-		val, ok := app.scrabbleWords[v]
-		// If the key exists
-		if ok {
-			for _, v := range val {
-				if !containsScrabbleWord(canMakeArray, v.Word) {
-					if !containsScrabbleWord(oneAwayArray, v.Word) {
-						twoAwayArray = append(twoAwayArray, v)
-					}
-				}
-			}
-		}
-	}
+	// var twoAwayArray = []scrabbleWords{}
+	// resTwoAway := getTwoAway(sortedWord)
+	// for _, v := range resTwoAway {
+	// 	val, ok := app.scrabbleWords[v]
+	// 	// If the key exists
+	// 	if ok {
+	// 		for _, v := range val {
+	// 			if !containsScrabbleWord(canMakeArray, v.Word) {
+	// 				if !containsScrabbleWord(oneAwayArray, v.Word) {
+	// 					twoAwayArray = append(twoAwayArray, v)
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
 
 	app.render(w, r, "show.page.tmpl", &templateData{
 		SearchWord: letters,
 		Matches:    canMakeArray,
 		OneAway:    oneAwayArray,
-		TwoAway:    twoAwayArray,
+		// TwoAway:    twoAwayArray,
 	})
 
 }
